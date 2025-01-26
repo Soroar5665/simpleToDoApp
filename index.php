@@ -12,9 +12,12 @@ function loadTasks(): array{
     return $data ? json_decode($data, true):[];
 }
 
+//load tasks
+$tasks = loadTasks();
+
 //save tasks to the tasks.json file
 function saveTasks(array $tasks) : void{
-    file_put_contents(TASK_FILE, json_encode($tasks));
+    file_put_contents(TASK_FILE, json_encode($tasks, JSON_PRETTY_PRINT));
 }
 
 //check if the form has been submitted using post request
@@ -37,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         exit;
     }elseif(isset($_POST['toggle'])){
         //toggle task as complete
-        $tasks[$_POST['toggle']['done']] = !$tasks[$_POST['toggle']];
+        $tasks[$_POST['toggle']]['done'] = !$tasks[$_POST['toggle']];
         saveTasks($tasks);
         header('Location: '. $_SERVER['PHP_SELF']);
         exit;
@@ -91,6 +94,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div class="task-card">
             <h1>To-Do App</h1>
 
+            <!--add task from-->
             <form method="POST">
                 <div class="row">
                     <div class="column column-75">
@@ -101,7 +105,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </div>
                 </div>
             </form>
-
+            <!--Task list-->
             <h2>Task List</h2>
             <ul style="list-style: none; padding: 0;">
                  <?php if(empty($tasks)): ?>
