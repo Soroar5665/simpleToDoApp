@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         exit;
     }elseif(isset($_POST['toggle'])){
         //toggle task as complete
-        $tasks[$_POST['toggle']]['done'] = !$tasks[$_POST['toggle']];
+        $tasks[$_POST['toggle']]['done'] = !$tasks[$_POST['toggle']]['done'];
         saveTasks($tasks);
         header('Location: '. $_SERVER['PHP_SELF']);
         exit;
