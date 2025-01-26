@@ -28,6 +28,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         saveTasks($tasks);
         header('Location: '. $_SERVER['PHP_SELF']);
         exit;
+    }elseif(isset($_POST['delete'])){
+        //delete a task
+        unset($tasks[$_POST['delete']]);
+        $tasks = array_values($tasks);//reindex the array
+        saveTasks($tasks);
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }elseif(isset($_POST['toggle'])){
+        //toggle task as complete
+        $tasks[$_POST['toggle']['done']] = !$tasks[$_POST['toggle']];
+        saveTasks($tasks);
+        header('Location: '. $_SERVER['PHP_SELF']);
+        exit;
     }
 }
 
